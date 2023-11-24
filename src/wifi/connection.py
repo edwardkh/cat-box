@@ -1,3 +1,4 @@
+import asyncio
 import time
 import network
 
@@ -44,3 +45,8 @@ def connect():
             pass
         print('Successfully connected to ' + wifi_ssid)
         print(wlan.ifconfig())
+
+
+async def stay_connected():
+    connect()
+    await asyncio.sleep(10)
