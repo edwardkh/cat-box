@@ -4,15 +4,15 @@ from litter_box.state import EMPTYING, start_delay, EATING_LITTER, IDLE, RESETTI
 
 
 def do_empty():
-    if state.current_state == EMPTYING:
+    if state.get_state() == EMPTYING:
         rotate.clock_wise()
         if sense.hall_sensor_triggered():
             rotate.stop()
             start_delay()
             state.current_state = EATING_LITTER
-    if state.current_state == EATING_LITTER and delay_over(empty_eating_time):
+    if state.get_state() == EATING_LITTER and delay_over(empty_eating_time):
         state.current_state = RESETTING
-    if state.current_state == RESETTING:
+    if state.get_state() == RESETTING:
         rotate.counter_clock_wise()
         if sense.hall_sensor_triggered():
             rotate.stop()

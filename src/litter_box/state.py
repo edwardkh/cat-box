@@ -36,6 +36,7 @@ def get_state():
 
 def cat_detected():
     global last_detection, current_state
+    print("Cat detected")
     last_detection = time.time()
     if current_state == IDLE:
         current_state = WAITING_TO_CYCLE

@@ -1,6 +1,6 @@
 import asyncio
 import time
-from litter_box.state import current_state
+from litter_box.state import get_state
 from litter_box.settings import loop_sleep
 import litter_box.detect
 import litter_box.cycle
@@ -16,7 +16,7 @@ def run():
         litter_box.detect.cat()
         litter_box.cycle.do_cycle()
         litter_box.empty.do_empty()
-        print(current_state)
+        print(get_state())
 
 
 async def loop():
