@@ -1,0 +1,13 @@
+cycle_wait_time = 420
+cycle_eating_time = 7
+cycle_overshoot_time = 5
+empty_eating_time = 7
+hall_pin1 = 37
+hall_pin2 = 39
+load_sensor_pin = 16
+load_sensor_threshold = 2500
+l298n_ena = 18
+l298n_in1 = 33
+l298n_in2 = 35
+loop_sleep = 0.5
+rotate_direction_reversed = False
