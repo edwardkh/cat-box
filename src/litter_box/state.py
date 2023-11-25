@@ -1,6 +1,6 @@
 from micropython import const
 import time
-from litter_box.settings import cycle_wait_time
+from litter_box.settings import get_cycle_wait_time
 import alert.bin_full as bin_full
 
 IDLE = const('Waiting for shit')
@@ -59,7 +59,7 @@ def unpause():
 
 def ok_to_move():
     global last_detection
-    return last_detection + cycle_wait_time < time.time()
+    return last_detection + get_cycle_wait_time() < time.time()
 
 
 def start_delay():

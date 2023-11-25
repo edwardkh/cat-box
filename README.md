@@ -24,3 +24,9 @@ Make S2 boards into Device Firmware Upgrade (DFU) mode.
 esptool.py --chip esp32s2 --port $DEVICE_CONNECTION erase_flash
 esptool.py --chip esp32s2 --port $DEVICE_CONNECTION write_flash -z 0x1000 micropython.bin
 ```
+
+
+
+### Upload the software
+Load the contents of the src directory to the board.
+

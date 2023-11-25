@@ -1,5 +1,5 @@
 from litter_box import state, rotate, sense
-from litter_box.settings import cycle_eating_time, cycle_overshoot_time
+from litter_box.settings import get_cycle_eating_time, get_cycle_overshoot_time
 
 
 def do_cycle():
@@ -11,7 +11,7 @@ def do_cycle():
             state.set_state(state.EATING_SHIT)
             rotate.stop()
             state.start_delay()
-    if state.get_state() == state.EATING_SHIT and state.delay_over(cycle_eating_time):
+    if state.get_state() == state.EATING_SHIT and state.delay_over(get_cycle_eating_time()):
         state.set_state(state.MOVING_BACK)
     if state.get_state() == state.MOVING_BACK:
         rotate.clock_wise()
@@ -20,7 +20,7 @@ def do_cycle():
             state.start_delay()
     if state.get_state() == state.LEVELING_LITTER:
         rotate.clock_wise()
-        if state.delay_over(cycle_overshoot_time):
+        if state.delay_over(get_cycle_overshoot_time()):
             state.set_state(state.LEVELING_GLOBE)
     if state.get_state() == state.LEVELING_GLOBE:
         rotate.counter_clock_wise()

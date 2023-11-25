@@ -1,13 +1,13 @@
 from machine import Pin, ADC
-from litter_box.settings import *
+from litter_box.settings import get_hall_pin1, get_hall_pin2, get_load_sensor_pin, get_load_sensor_threshold
 
-hall_sensor1 = Pin(hall_pin1, Pin.IN)
-hall_sensor2 = Pin(hall_pin2, Pin.IN)
+hall_sensor1 = Pin(get_hall_pin1(), Pin.IN)
+hall_sensor2 = Pin(get_hall_pin2(), Pin.IN)
 
 old_hall_sensor1 = False
 old_hall_sensor2 = False
 
-cat_sensor = ADC(Pin(load_sensor_pin))
+cat_sensor = ADC(Pin(get_load_sensor_pin()))
 
 
 def hall_sensor_triggered():
@@ -22,4 +22,4 @@ def hall_sensor_triggered():
 def cat_in_the_box():
     load = cat_sensor.read_u16()
     print("load=" + str(load))
-    return load > load_sensor_threshold
+    return load > get_load_sensor_threshold()

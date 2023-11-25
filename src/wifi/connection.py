@@ -2,7 +2,7 @@ import asyncio
 import time
 import network
 from wifi.secrets import wifi_ssid, wifi_password, wifi_ip_config, base_url
-from wifi.settings import connection_backoff, connection_retries
+from wifi.settings import get_connection_backoff, get_connection_retries
 
 try:
     import usocket as socket
@@ -28,9 +28,9 @@ def init():
 
 def ready_to_connect():
     global connection_attempt
-    if last_connection_attempt + connection_backoff < time.time():
+    if last_connection_attempt + get_connection_backoff() < time.time():
         connection_attempt = 0
-    return connection_attempt <= connection_retries
+    return connection_attempt <= get_connection_retries()
 
 
 def connect():
