@@ -1,6 +1,9 @@
 from litter_box import state
-from litter_box.state import SIFTING, EMPTYING, PAUSED
+from litter_box.state import EMPTYING, PAUSED
 from microdot_asyncio import Microdot
+from wifi.connection import get_base_url
+
+
 app = Microdot()
 
 htmldoc = '''<!DOCTYPE html>
@@ -55,6 +58,10 @@ htmldoc = '''<!DOCTYPE html>
             const unpause = () => {
                 action("unpause")
             }
+            
+            const reset = () => {
+                action("reset")
+            }
         </script>
     </head>
     <body>
@@ -64,6 +71,7 @@ htmldoc = '''<!DOCTYPE html>
             <input id="emptyButton" type="button" value="Empty" onclick="empty();" />
             <input id="pauseButton" type="button" value="Pause" onclick="pause();" />
             <input id="unpauseButton" hidden type="button" value="Unpause" onclick="unpause();" />
+            <input id="resetButton" type="button" value="Reset" onclick="reset();" />
             <div>
                 Current State: <span id='currentState'></span>
             </div>
@@ -85,7 +93,7 @@ def get_state(request):
 
 @app.route('/cycle', methods=['POST'])
 def set_state(request):
-    state.set_state(SIFTING)
+    state.start_cycle()
     return {"state": state.get_state()}, 200, {'Content-Type': 'application/json'}
 
 
@@ -106,6 +114,19 @@ def pause(request):
     print("Request to un-pause")
     state.unpause()
     return {"state": state.get_state()}, 200, {'Content-Type': 'application/json'}
+
+@app.route('/reset', methods=['GET'])
+def reset(request):
+    print("Request to reset")
+    state.reset()
+    return {"state": "Reset"}, 302, {'Content-Type': 'application/json', 'Location': get_base_url()}
+
+@app.route('/reset', methods=['POST'])
+def reset(request):
+    print("Request to reset")
+    state.reset()
+    return {"state": "Reset"}, 200, {'Content-Type': 'application/json'}
+
 
 async def start():
     await app.start_server(debug=True, port=80)

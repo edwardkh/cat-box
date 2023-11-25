@@ -1,6 +1,7 @@
 from micropython import const
 import time
 from litter_box.settings import cycle_wait_time
+import alert.bin_full as bin_full
 
 IDLE = const('Waiting for shit')
 
@@ -69,3 +70,14 @@ def start_delay():
 def delay_over(dwell_time):
     global delay_start
     return delay_start + dwell_time < time.time()
+
+
+def reset():
+    global current_state
+    current_state = IDLE
+    bin_full.reset()
+
+
+def start_cycle():
+    set_state(SIFTING)
+    bin_full.react_to_cycle()

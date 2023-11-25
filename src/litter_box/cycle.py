@@ -4,7 +4,7 @@ from litter_box.settings import cycle_eating_time, cycle_overshoot_time
 
 def do_cycle():
     if state.get_state() == state.WAITING_TO_CYCLE and state.ok_to_move():
-        state.set_state(state.SIFTING)
+        state.start_cycle()
     if state.get_state() == state.SIFTING:
         rotate.counter_clock_wise()
         if sense.hall_sensor_triggered():

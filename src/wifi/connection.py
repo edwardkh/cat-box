@@ -1,8 +1,7 @@
 import asyncio
 import time
 import network
-
-from wifi.secrets import wifi_ssid, wifi_password, wifi_ip_config
+from wifi.secrets import wifi_ssid, wifi_password, wifi_ip_config, base_url
 from wifi.settings import connection_backoff, connection_retries
 
 try:
@@ -50,3 +49,16 @@ def connect():
 async def stay_connected():
     connect()
     await asyncio.sleep(10)
+
+
+def get_ip():
+    if wlan.isconnected():
+        return wlan.ifconfig()[0]
+    return None
+
+
+def get_base_url():
+    if base_url:
+        return base_url
+    else:
+        return 'http://' + get_ip()
