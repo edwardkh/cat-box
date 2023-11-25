@@ -20,12 +20,12 @@ def get_smtp_port():
     return get_state_of("smtp_port", secrets.smtp_port)
 
 
-def get_send_email():
-    return get_state_of("send_email", secrets.send_email)
+def get_smtp_email():
+    return get_state_of("smtp_email", secrets.smtp_email)
 
 
-def get_send_password():
-    return get_state_of("send_password", secrets.send_password)
+def get_smtp_password():
+    return get_state_of("smtp_password", secrets.smtp_password)
 
 
 def get_bin_full_recipients():

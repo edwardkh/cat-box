@@ -25,7 +25,14 @@ esptool.py --chip esp32s2 --port $DEVICE_CONNECTION erase_flash
 esptool.py --chip esp32s2 --port $DEVICE_CONNECTION write_flash -z 0x1000 micropython.bin
 ```
 
+### Customize the software (optional)
+#### Configure web connection
+In the `src/wifi` directory copy `default_secrets.py` to `secrets.py` and enter values for your network connection.
+If `base_url` is none the devices ip address will be used directly.
 
+#### Configure alerts
+Alerts require a web connection. In the `src/alert` directory copy `default_secrets.py` to `secrets.py` and enter values for 
+your email.
 
 ### Upload the software
 Load the contents of the src directory to the board.
