@@ -1,6 +1,6 @@
 from persistent_state.state import get_state_of
 
-cycle_wait_time = 420
+cycle_wait_time = 10
 cycle_eating_time = 7
 cycle_overshoot_time = 5
 empty_eating_time = 7
