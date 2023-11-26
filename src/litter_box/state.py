@@ -2,6 +2,7 @@ from micropython import const
 import time
 from litter_box.settings import get_cycle_wait_time
 import alert.bin_full as bin_full
+from litter_box.sense import calibrate_load
 
 IDLE = const('Waiting for shit')
 
@@ -76,6 +77,7 @@ def reset():
     global current_state
     current_state = IDLE
     bin_full.reset()
+    calibrate_load()
 
 
 def start_cycle():

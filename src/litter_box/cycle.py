@@ -29,3 +29,4 @@ def do_cycle():
         if sense.hall_sensor_triggered():
             rotate.stop()
             state.set_state(state.IDLE)
+            sense.calibrate_load()

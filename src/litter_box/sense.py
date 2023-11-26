@@ -9,6 +9,8 @@ old_hall_sensor2 = False
 
 cat_sensor = ADC(Pin(get_load_sensor_pin()))
 
+average_load = 44000
+
 
 def hall_sensor_triggered():
     global old_hall_sensor1, old_hall_sensor2
@@ -19,7 +21,17 @@ def hall_sensor_triggered():
     return hall_sensor1_triggered or hall_sensor2_triggered
 
 
+def calibrate_load():
+    global average_load
+    count = 10
+    load = 0
+    for i in range(count):
+        load = load + cat_sensor.read_u16()
+    average_load = load / 10
+    print("Recalibrated to: " + str(average_load))
+
+
 def cat_in_the_box():
     load = cat_sensor.read_u16()
     print("load=" + str(load))
-    return load > get_load_sensor_threshold()
+    return load + get_load_sensor_threshold() < average_load
