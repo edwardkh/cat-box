@@ -1,6 +1,6 @@
 # Litter Box
  
-## Prepare your esp32s2 mini.
+## Prepare the esp32s2 mini.
 
 ### Find the connection for board
 Run `ls /dev/tty*` with the board unplugged and again with it plugged in.
@@ -37,3 +37,8 @@ your email.
 ### Upload the software
 Load the contents of the src directory to the board.
 
+## Wire it up
+
+[//]: # (Todo add a digram)
+
+## Run it

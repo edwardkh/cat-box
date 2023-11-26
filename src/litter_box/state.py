@@ -14,7 +14,9 @@ LEVELING_LITTER = const("Leveling litter")
 LEVELING_GLOBE = const("Leveling the globe")
 
 EMPTYING = const("Dumping this mess")
+OPENING_THROAT = const("Opening Throat")
 EATING_LITTER = const("Eating litter")
+SWALLOWING = const("Swallowing")
 RESETTING = const("Resetting")
 
 PAUSED = const("Paused")
