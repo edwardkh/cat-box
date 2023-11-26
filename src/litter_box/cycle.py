@@ -3,6 +3,8 @@ from litter_box.settings import get_cycle_eating_time, get_cycle_overshoot_time
 
 
 def do_cycle():
+    if state.get_state() == state.PAUSED:
+        rotate.stop()
     if state.get_state() == state.WAITING_TO_CYCLE and state.ok_to_move():
         state.start_cycle()
     if state.get_state() == state.SIFTING:
