@@ -2,7 +2,7 @@ from litter_box import state
 from litter_box.state import EMPTYING, PAUSED
 from microdot_asyncio import Microdot
 from wifi.connection import get_base_url
-
+from persistent_state.state import merge_state
 
 app = Microdot()
 
@@ -16,7 +16,7 @@ htmldoc = '''<!DOCTYPE html>
                 document.getElementById("currentState").innerHTML = state;
                 let pauseButton = document.getElementById("pauseButton");
                 let unpauseButton = document.getElementById("unpauseButton");
-                if(state == "'''+PAUSED+'''"){
+                if(state == "''' + PAUSED + '''"){
                     pauseButton.setAttribute("hidden", "hidden");
                     unpauseButton.removeAttribute("hidden");
                 }else{
@@ -109,11 +109,13 @@ def pause(request):
     state.pause()
     return {"state": state.get_state()}, 200, {'Content-Type': 'application/json'}
 
+
 @app.route('/unpause', methods=['POST'])
 def pause(request):
     print("Request to un-pause")
     state.unpause()
     return {"state": state.get_state()}, 200, {'Content-Type': 'application/json'}
+
 
 @app.route('/reset', methods=['GET'])
 def reset(request):
@@ -121,11 +123,20 @@ def reset(request):
     state.reset()
     return {"state": "Reset"}, 302, {'Content-Type': 'application/json', 'Location': get_base_url()}
 
+
 @app.route('/reset', methods=['POST'])
 def reset(request):
     print("Request to reset")
     state.reset()
     return {"state": "Reset"}, 200, {'Content-Type': 'application/json'}
+
+
+@app.route('/settings', methods=['PATCH'])
+def reset(request):
+    print("Request to patch settings")
+    print(request.json)
+    merge_state(request.json)
+    return {"state": "Updated"}, 200, {'Content-Type': 'application/json'}
 
 
 async def start():

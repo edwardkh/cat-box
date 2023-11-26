@@ -5,15 +5,16 @@ cached_state = None
 
 def load_state():
     global cached_state
+    state = {}
     try:
         f = open('/persistent_state/state.json')
         json_string = f.read()
+        print("Loading: " + json_string)
         f.close()
-    except IOError:
-        json_string = "{}"
-    if not json_string:
-        json_string = "{}"
-    cached_state = ujson.loads(json_string)
+        state = ujson.loads(json_string)
+    except:
+        pass
+    cached_state = state
 
 
 def get_state():
@@ -23,11 +24,22 @@ def get_state():
     return cached_state
 
 
+def merge_state(state):
+    merged_state = get_state()
+    for (key, value) in state.items():
+        merged_state[key] = value
+    set_state(merged_state)
+
+
 def set_state(state):
     global cached_state
+    if not state:
+        state = {}
     cached_state = state
     f = open('/persistent_state/state.json', 'w')
-    f.write(ujson.dumps(state))
+    json = ujson.dumps(state)
+    print("Persisting state: " + json)
+    f.write(json)
     f.close()
 
 

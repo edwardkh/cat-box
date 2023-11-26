@@ -33,6 +33,26 @@
                 <option name="name" value="Set State" />
                 <option name="url" value="http://192.168.12.95/set-state" />
               </requestState>
+              <requestState>
+                <option name="body">
+                  <bodyState>
+                    <option name="raw" value="{&#10;  &quot;load_sensor_threshold&quot;: 3000&#10;}" />
+                    <option name="type" value="JSON" />
+                  </bodyState>
+                </option>
+                <option name="headers">
+                  <list>
+                    <headerState>
+                      <option name="key" value="Content-Type" />
+                      <option name="value" value="application/json" />
+                    </headerState>
+                  </list>
+                </option>
+                <option name="id" value="4b050c5b-c262-45d4-82f7-3d18d827133a" />
+                <option name="method" value="PATCH" />
+                <option name="name" value="Patch Settings" />
+                <option name="url" value="http://192.168.12.95/settings" />
+              </requestState>
             </list>
           </option>
           <option name="sortWeight" value="1000000" />
