@@ -84,4 +84,5 @@ def reset():
 
 def start_cycle():
     set_state(SIFTING)
+    start_delay()
     bin_full.react_to_cycle()
