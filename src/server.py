@@ -1,4 +1,5 @@
 from litter_box import state
+from litter_box.settings import get_load_sensor_threshold
 from litter_box.state import EMPTYING, PAUSED
 from microdot_asyncio import Microdot
 from wifi.connection import get_base_url
@@ -6,77 +7,151 @@ from persistent_state.state import merge_state
 
 app = Microdot()
 
-htmldoc = '''<!DOCTYPE html>
-<html>
-    <head>
-        <title>Cat Box</title>        <meta charset="UTF-8">
-        <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-        <script>
-            const handleStateChange = (state) => {
-                document.getElementById("currentState").innerHTML = state;
-                let pauseButton = document.getElementById("pauseButton");
-                let unpauseButton = document.getElementById("unpauseButton");
-                if(state == "''' + PAUSED + '''"){
-                    pauseButton.setAttribute("hidden", "hidden");
-                    unpauseButton.removeAttribute("hidden");
-                }else{
-                    unpauseButton.setAttribute("hidden", "hidden");
-                    pauseButton.removeAttribute("hidden");
-                }
-            };
-        
-            const updateSatus = () => {
-                axios.get("/current-state")
-                    .then((response) => {
-                        handleStateChange(response.data.state)
-                    })
-                    .catch((error) => console.error(error));
-            };
-        
-            const action = (action) => {
-                axios.post("/"+action)
-                    .then((response) => {
-                        handleStateChange(response.data.state)
-                    })
-                    .catch((error) => console.error(error));
-            }
-            updateSatus()
-            setInterval(updateSatus, 10000)
-                        
-            const cycle = () => {
-                action("cycle")
-            }
-            
-            const empty = () => {
-                action("empty")
-            }
-            
-            const pause = () => {
-                action("pause")
-            }
-            
-            const unpause = () => {
-                action("unpause")
-            }
-            
-            const reset = () => {
-                action("reset")
-            }
-        </script>
-    </head>
-    <body>
-        <div>
-            <h1>Cat Box</h1>
-            <input id="cycleButton" type="button" value="Cycle" onclick="cycle();" />
-            <input id="emptyButton" type="button" value="Empty" onclick="empty();" />
-            <input id="pauseButton" type="button" value="Pause" onclick="pause();" />
-            <input id="unpauseButton" hidden type="button" value="Unpause" onclick="unpause();" />
-            <input id="resetButton" type="button" value="Reset" onclick="reset();" />
-            <div>
-                Current State: <span id='currentState'></span>
+htmldoc = '''
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+    <title>Cat Box</title>
+    <meta charset="UTF-8">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <style>
+        button {
+            width: 100%;
+            padding: 5px;
+            margin: 5px 0px;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>Cat Box</h1>
+    <ul class="collapsible">
+        <li class="active">
+            <div class="collapsible-header"><i class="material-icons">input</i>Actions</div>
+            <div class="collapsible-body">
+                <div class="row">
+                    <div class="center-align col s12 m3">
+                        <button id="resetButton" class="waves-effect waves-light btn blue darken-4"
+                                onclick="reset();"><i class="material-icons">add_box</i>Reset
+                        </button>
+                    </div>
+                    <div class="center-align col s12 m3">
+                        <button id="cycleButton" class="waves-effect waves-light btn green" onclick="cycle();"><i
+                                class="material-icons">loop</i>Cycle
+                        </button>
+                    </div>
+                    <div class="center-align col s12 m3">
+                        <button id="emptyButton" class="waves-effect waves-light btn red darken-3" onclick="empty();">
+                            <i class="material-icons">open_in_new</i>Empty
+                        </button>
+                    </div>
+                    <div id="pauseButtonBlock" class="center-align col s12 m3">
+                        <button id="pauseButton" class="waves-effect waves-light btn blue lighten-2"
+                                onclick="pause();"><i class="material-icons">pause_circle_outline</i>Pause
+                        </button>
+                    </div>
+                    <div id="unpauseButtonBlock" hidden class="center-align col s12 m3">
+                        <button id="unpauseButton" class="waves-effect waves-light btn orange" onclick="unpause();">
+                            <i class="material-icons">play_circle_outline</i>Unpause
+                        </button>
+                    </div>
+                </div>
             </div>
-        </div>
-    </body>
+        </li>
+        <li>
+            <div class="collapsible-header"><i class="material-icons">settings</i>Settings</div>
+            <div class="collapsible-body">
+                <label for="sensitivity"><i class="material-icons">fitness_center</i>Sensitivity:</label>
+                <output id="sensitivityValue">''' + str(get_load_sensor_threshold()) + '''</output>
+                <input
+                    id="sensitivity" type="range" min="0" max="6000"
+                    value="''' + str(get_load_sensor_threshold()) + '''"
+                    onchange="setSensitivity(this.value)"/>
+            </div>
+        </li>
+    </ul>
+    <div>
+        Current State: <span id='currentState'></span>
+    </div>
+
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <script>
+        const handleStateChange = (state) => {
+            document.getElementById("currentState").innerHTML = state;
+            let pauseButton = document.getElementById("pauseButtonBlock");
+            let unpauseButton = document.getElementById("unpauseButtonBlock");
+            if(state == "''' + PAUSED + '''"){
+                pauseButton.setAttribute("hidden", "hidden");
+                unpauseButton.removeAttribute("hidden");
+            }else{
+                unpauseButton.setAttribute("hidden", "hidden");
+                pauseButton.removeAttribute("hidden");
+            }
+        };
+
+        const updateSatus = () => {
+            axios.get("/current-state")
+                .then((response) => {
+                    handleStateChange(response.data.state)
+                })
+                .catch((error) => console.error(error));
+        };
+
+        const action = (action) => {
+            axios.post("/"+action)
+                .then((response) => {
+                    handleStateChange(response.data.state)
+                })
+                .catch((error) => console.error(error));
+        }
+        
+        const update = (settings) => {
+            axios.patch("/settings", settings)
+                .then((response) => {
+                    M.toast({html: 'Setting updated!'})
+                })
+                .catch((error) => console.error(error));
+        }
+        
+        updateSatus()
+        setInterval(updateSatus, 10000)
+
+        const cycle = () => {
+            action("cycle")
+        }
+
+        const empty = () => {
+            action("empty")
+        }
+
+        const pause = () => {
+            action("pause")
+        }
+
+        const unpause = () => {
+            action("unpause")
+        }
+
+        const reset = () => {
+            action("reset")
+        }
+
+        const setSensitivity = (value) => {
+            document.querySelector("#sensitivityValue").textContent = value;
+            update({"load_sensor_threshold": parseInt(value)})
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            var elements = document.querySelectorAll('.collapsible');
+            var instances = M.Collapsible.init(elements);
+        });
+
+    </script>
+</div>
+</body>
 </html>
 '''
 
@@ -137,6 +212,14 @@ def reset(request):
     print(request.json)
     merge_state(request.json)
     return {"state": "Updated"}, 200, {'Content-Type': 'application/json'}
+
+
+@app.route('/settings', methods=['GET'])
+def reset():
+    settings = {
+        "load_sensor_threshold": get_load_sensor_threshold()
+    }
+    return settings, 200, {'Content-Type': 'application/json'}
 
 
 async def start():
