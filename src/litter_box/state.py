@@ -3,6 +3,7 @@ import time
 from litter_box.settings import get_cycle_wait_time
 import alert.bin_full as bin_full
 from litter_box.sense import calibrate_load
+from persistent_state import state as persistent_state
 
 IDLE = const('Waiting for shit')
 
@@ -83,6 +84,7 @@ def reset():
 
 
 def start_cycle():
+    persistent_state.set_state_of("last_cycle", time.time())
     set_state(SIFTING)
     start_delay()
     bin_full.react_to_cycle()

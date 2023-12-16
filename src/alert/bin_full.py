@@ -4,6 +4,10 @@ from wifi.connection import get_base_url
 from alert.settings import get_bin_full_cycles, get_bin_full_recipients
 
 
+def get_current_cycles():
+    return state.get_state_of("cycles", 0)
+
+
 def react_to_cycle():
     cycles = state.increment_state_of("cycles")
     if cycles > state.get_state_of("alert_bin_full_cycles", get_bin_full_cycles()):

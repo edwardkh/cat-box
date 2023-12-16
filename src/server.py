@@ -1,5 +1,7 @@
+from alert.settings import get_bin_full_cycles
+from alert.bin_full import get_current_cycles
 from litter_box import state
-from litter_box.settings import get_load_sensor_threshold
+from litter_box.settings import get_load_sensor_threshold, get_timed_cycle_delay_hours
 from litter_box.state import EMPTYING, PAUSED
 from microdot_asyncio import Microdot
 from wifi.connection import get_base_url
@@ -63,12 +65,32 @@ htmldoc = '''
         <li>
             <div class="collapsible-header"><i class="material-icons">settings</i>Settings</div>
             <div class="collapsible-body">
-                <label for="sensitivity"><i class="material-icons">fitness_center</i>Sensitivity:</label>
-                <output id="sensitivityValue">''' + str(get_load_sensor_threshold()) + '''</output>
-                <input
-                    id="sensitivity" type="range" min="0" max="6000"
-                    value="''' + str(get_load_sensor_threshold()) + '''"
-                    onchange="setSensitivity(this.value)"/>
+                <div>
+                    <label for="sensitivity"><i class="material-icons">fitness_center</i>Sensitivity:</label>
+                    <output id="sensitivityValue">''' + str(get_load_sensor_threshold()) + '''</output>
+                    <input
+                        id="sensitivity" type="range" min="0" max="6000"
+                        value="''' + str(get_load_sensor_threshold()) + '''"
+                        onchange="setSensitivity(this.value)"/>
+                </div>
+                <div>
+                    <label for="alertCycles"><i class="material-icons">alarm_add</i>Current Cycle Count:</label>
+                    <span id="currentCycles">''' + str(get_current_cycles()) + '''</span>
+                    <label for="alertCycles"><i class="material-icons">alarm</i>Alert Cycles:</label>
+                    <output id="alertCyclesValue">''' + str(get_bin_full_cycles()) + '''</output>
+                    <input
+                        id="alertCycles" type="range" min="0" max="30"
+                        value="''' + str(get_bin_full_cycles()) + '''"
+                        onchange="setBinFullCycles(this.value)"/>
+                </div>
+                <div>
+                    <label for="timedCycleDelayHours"><i class="material-icons">timelapse</i>Timed Cycle Delay (Hours):</label>
+                    <output id="timedCycleDelayHoursValue">''' + str(get_timed_cycle_delay_hours()) + '''</output>
+                    <input
+                        id="timedCycleDelayHours" type="range" min="4" max="24" step="1"
+                        value="''' + str(get_timed_cycle_delay_hours()) + '''"
+                        onchange="setTimedCycleDelayHours(this.value)"/>
+                </div>
             </div>
         </li>
     </ul>
@@ -142,6 +164,11 @@ htmldoc = '''
         const setSensitivity = (value) => {
             document.querySelector("#sensitivityValue").textContent = value;
             update({"load_sensor_threshold": parseInt(value)})
+        }
+        
+        const setBinFullCycles = (value) => {
+            document.querySelector("#alertCyclesValue").textContent = value;
+            update({"bin_full_cycles": parseInt(value)})
         }
 
         document.addEventListener('DOMContentLoaded', function() {

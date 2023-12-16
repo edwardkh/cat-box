@@ -36,7 +36,7 @@
               <requestState>
                 <option name="body">
                   <bodyState>
-                    <option name="raw" value="{&#10;  &quot;rotate_direction_reversed&quot;: false,&#10;  &quot;load_sensor_threshold&quot;: 4000&#10;}" />
+                    <option name="raw" value="{&#10;  &quot;load_sensor_threshold&quot;: 3000&#10;}" />
                     <option name="type" value="JSON" />
                   </bodyState>
                 </option>

@@ -15,7 +15,11 @@ l298n_in1 = 33
 l298n_in2 = 35
 loop_sleep = 0.1
 rotate_direction_reversed = False
+timed_cycle_delay_hours = 24
 
+
+def get_timed_cycle_delay_hours():
+    return get_state_of("timed_cycle_delay_hours", timed_cycle_delay_hours)
 
 def get_cycle_start_ignore_hall_sensor_time():
     return get_state_of("cycle_start_ignore_hall_sensor_time", cycle_start_ignore_hall_sensor_time)
