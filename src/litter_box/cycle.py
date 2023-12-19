@@ -5,8 +5,13 @@ from litter_box.settings import get_cycle_eating_time, get_cycle_overshoot_time,
 from persistent_state import state as persistent_state
 
 
+def timed_cycle_tripped():
+    next_timed_cycle_time = persistent_state.get_state_of("last_cycle", 0) + get_timed_cycle_delay_hours() * 3600
+    return next_timed_cycle_time < time.time()
+
+
 def do_cycle():
-    if persistent_state.get_state_of("last_cycle", 0) + get_timed_cycle_delay_hours()*3600 < time.time():
+    if state.get_state() == state.IDLE and timed_cycle_tripped():
         state.start_cycle()
     if state.get_state() == state.IDLE:
         rotate.stop()
