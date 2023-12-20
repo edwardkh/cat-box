@@ -1,5 +1,31 @@
 # Litter Box
  
+This is code for an alternate main board for a litter robot 3.
+
+## Features
+
+### Current Working Features
+
+* Clean litter box on cat detection (if CAT sensor is used).
+* Clean litter box a set duration after last cycle. This is useful for cats too lite to trigger the box. It is also useful if the CAT sensor is not used.
+* Empty litter box.
+* Send email (or text message) on after a set number of cycles. 
+* Web based UI.
+
+### Litter Robot 3 Features not implemented
+
+* Physical buttons
+* Pinch detection
+* Bin full detection
+
+## Hardware Needed
+
+* ESP32s2 mini
+* L298N motor controller (used to drive motor and provide 5V voltage step down)
+* One 2.2K resistor for the CAT detector
+* Two 10K resistors for the hall effect sensors
+* A Litter Robot 3 with a bad main board.
+
 ## Prepare the esp32s2 mini.
 
 ### Find the connection for board
@@ -39,6 +65,22 @@ Load the contents of the src directory to the board.
 
 ## Wire it up
 
-[//]: # (Todo add a digram)
+![wiring diagram](img/diagram.png)
 
 ## Run it
+
+It should start running one the code is uploaded. 
+
+Note: If it is rotating in the wrong direction you can set `rotate_direction_reversed` to `true`.
+
+### The UI
+
+If you set up a web connection, you can access the ui via a web browser. It should look something like:
+![ui actions](img/ui-actions.png)
+with settings something like:
+![ui settings](img/ui-settings.png)
+
+### The API
+
+* PATCH `/settings` 
+  * Nearly all the settings are settable by sending a json object to this endpoint with the setting name and value.  
