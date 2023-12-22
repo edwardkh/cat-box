@@ -71,6 +71,12 @@ Load the contents of the src directory to the board.
 
 It should start running one the code is uploaded. 
 
+Logs can be read via 
+
+```commandline
+picocom $DEVICE_CONNECTION -b115200
+```
+
 Note: If it is rotating in the wrong direction you can set `rotate_direction_reversed` to `true`.
 
 ### The UI

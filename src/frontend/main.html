@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+    <title>Cat Box</title>
+    <meta charset="UTF-8">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <style>
+        button {
+            width: 100%;
+            padding: 5px;
+            margin: 5px 0px;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>Cat Box</h1>
+    <ul class="collapsible">
+        <li class="active">
+            <div class="collapsible-header"><i class="material-icons">input</i>Actions</div>
+            <div class="collapsible-body">
+                <div class="row">
+                    <div class="center-align col s12 m3">
+                        <button id="resetButton" class="waves-effect waves-light btn blue darken-4"
+                                onclick="reset();"><i class="material-icons">add_box</i>Reset
+                        </button>
+                    </div>
+                    <div class="center-align col s12 m3">
+                        <button id="cycleButton" class="waves-effect waves-light btn green" onclick="cycle();"><i
+                                class="material-icons">loop</i>Cycle
+                        </button>
+                    </div>
+                    <div class="center-align col s12 m3">
+                        <button id="emptyButton" class="waves-effect waves-light btn red darken-3" onclick="empty();">
+                            <i class="material-icons">open_in_new</i>Empty
+                        </button>
+                    </div>
+                    <div id="pauseButtonBlock" class="center-align col s12 m3">
+                        <button id="pauseButton" class="waves-effect waves-light btn blue lighten-2"
+                                onclick="pause();"><i class="material-icons">pause_circle_outline</i>Pause
+                        </button>
+                    </div>
+                    <div id="unpauseButtonBlock" hidden class="center-align col s12 m3">
+                        <button id="unpauseButton" class="waves-effect waves-light btn orange" onclick="unpause();">
+                            <i class="material-icons">play_circle_outline</i>Unpause
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </li>
+        <li>
+            <div class="collapsible-header"><i class="material-icons">settings</i>Settings</div>
+            <div class="collapsible-body">
+                <div>
+                    <label for="sensitivity"><i class="material-icons">fitness_center</i>Sensitivity:</label>
+                    <output id="sensitivityValue"></output>
+                    <input
+                            id="sensitivity" type="range" min="0" max="6000"
+                            value=""
+                            onchange="setSensitivity(this.value)"/>
+                </div>
+                <div>
+                    <label for="alertCycles"><i class="material-icons">alarm_add</i>Current Cycle Count:</label>
+                    <span id="currentCycles"></span>
+                    <label for="alertCycles"><i class="material-icons">alarm</i>Alert Cycles:</label>
+                    <output id="alertCyclesValue"></output>
+                    <input
+                            id="alertCycles" type="range" min="0" max="30"
+                            value=""
+                            onchange="setBinFullCycles(this.value)"/>
+                </div>
+                <div>
+                    <label for="timedCycleDelayHours"><i class="material-icons">timelapse</i>Timed Cycle Delay (Hours):</label>
+                    <output id="timedCycleDelayHoursValue"></output>
+                    <input
+                            id="timedCycleDelayHours" type="range" min="4" max="24" step="1"
+                            value=""
+                            onchange="setTimedCycleDelayHours(this.value)"/>
+                </div>
+            </div>
+        </li>
+    </ul>
+    <div>
+        Current State: <span id='currentState'></span>
+    </div>
+
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <script src="main.js"></script>
+</div>
+</body>
+</html>

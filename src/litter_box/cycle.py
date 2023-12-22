@@ -2,11 +2,10 @@ import time
 
 from litter_box import state, rotate, sense
 from litter_box.settings import get_cycle_eating_time, get_cycle_overshoot_time, get_cycle_start_ignore_hall_sensor_time, get_timed_cycle_delay_hours
-from persistent_state import state as persistent_state
 
 
 def timed_cycle_tripped():
-    next_timed_cycle_time = persistent_state.get_state_of("last_cycle", 0) + get_timed_cycle_delay_hours() * 3600
+    next_timed_cycle_time = state.get_last_cycle() + get_timed_cycle_delay_hours() * 3600
     return next_timed_cycle_time < time.time()
 
 

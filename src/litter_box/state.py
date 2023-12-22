@@ -83,6 +83,10 @@ def reset():
     calibrate_load()
 
 
+def get_last_cycle():
+    return persistent_state.get_state_of("last_cycle", 0)
+
+
 def start_cycle():
     persistent_state.set_state_of("last_cycle", time.time())
     set_state(SIFTING)

@@ -53,6 +53,18 @@
                 <option name="name" value="Patch Settings" />
                 <option name="url" value="http://192.168.12.95/settings" />
               </requestState>
+              <requestState>
+                <option name="id" value="daf05de3-6481-4fa4-9ef8-db124658f00a" />
+                <option name="method" value="GET" />
+                <option name="name" value="Get Settings" />
+                <option name="url" value="http://192.168.12.95/settings" />
+              </requestState>
+              <requestState>
+                <option name="id" value="33e464b9-d063-4e12-b6d6-94b237147592" />
+                <option name="method" value="GET" />
+                <option name="name" value="Main 1" />
+                <option name="url" value="http://192.168.12.95/main.js" />
+              </requestState>
             </list>
           </option>
           <option name="sortWeight" value="1000000" />
