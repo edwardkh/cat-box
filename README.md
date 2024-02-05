@@ -20,10 +20,10 @@ This is code for an alternate main board for a litter robot 3.
 
 ## Hardware Needed
 
-* ESP32s2 mini
-* L298N motor controller (used to drive motor and provide 5V voltage step down)
-* One 2.2K resistor for the CAT detector
-* Two 10K resistors for the hall effect sensors
+* ESP32s2 mini (https://amzn.to/3Ox8Swh)
+* L298N motor controller (used to drive motor and provide 5V voltage step down)(https://amzn.to/3UtnYqj)
+* One 2.2K resistor for the CAT detector (https://amzn.to/4889Zt4)
+* Two 10K resistors for the hall effect sensors (https://amzn.to/4889Zt4)
 * A Litter Robot 3 with a bad main board.
 
 ## Prepare the esp32s2 mini.
@@ -89,4 +89,4 @@ with settings something like:
 ### The API
 
 * PATCH `/settings` 
-  * Nearly all the settings are settable by sending a json object to this endpoint with the setting name and value.  
+  * Nearly all the settings are settable by sending a json object to this endpoint with the setting name and value.
