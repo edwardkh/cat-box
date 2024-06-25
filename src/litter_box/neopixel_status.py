@@ -36,7 +36,7 @@ async def lumos():
             asyncio.run(dolight((255,0,0)))
 
         # rotating = blinking yellow
-        elif state.get_state() == state.SIFTING or state.get_state() == state.EATING_SHIT or state.get_state() == state.MOVING_BACK or state.get_state() == state.LEVELING_LITTER or state.get_state() == state.LEVELING_GLOBE == 0:
+        elif state.get_state() == state.SIFTING or state.get_state() == state.EATING_SHIT or state.get_state() == state.MOVING_BACK or state.get_state() == state.LEVELING_LITTER or state.get_state() == state.LEVELING_GLOBE:
             asyncio.run(dolight((255,255,0), True))
 
         # empty = blinking purple

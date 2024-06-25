@@ -1,7 +1,7 @@
 import asyncio
 import time
 import network
-from wifi.secrets import wifi_ssid, wifi_password, wifi_ip_config, base_url
+from wifi.secrets import wifi_ssid, wifi_password, wifi_ip_config, base_url, wifi_hostname
 from wifi.settings import get_connection_backoff, get_connection_retries
 
 try:
@@ -21,8 +21,10 @@ def configured():
 def init():
     if configured():
         wlan.active(True)
-        if wifi_ip_config:
-            wlan.ifconfig(wifi_ip_config)
+        # if wifi_ip_config:
+        #     wlan.ifconfig(wifi_ip_config)
+        if wifi_hostname:
+            wlan.config(dhcp_hostname=wifi_hostname) 
         connect()
 
 

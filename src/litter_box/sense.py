@@ -1,13 +1,13 @@
 from machine import Pin, ADC
 from litter_box.settings import get_hall_pin1, get_hall_pin2, get_load_sensor_pin, get_load_sensor_threshold
 
-hall_sensor1 = Pin(get_hall_pin1(), Pin.IN)
-hall_sensor2 = Pin(get_hall_pin2(), Pin.IN)
+hall_sensor1 = Pin(get_hall_pin1(), Pin.IN, Pin.PULL_UP)
+hall_sensor2 = Pin(get_hall_pin2(), Pin.IN, Pin.PULL_UP)
 
 old_hall_sensor1 = True
 old_hall_sensor2 = True
 
-cat_sensor = ADC(Pin(get_load_sensor_pin()))
+cat_sensor = ADC(Pin(get_load_sensor_pin()), atten = ADC.ATTN_11DB)
 
 average_load = 44000
 rolling_load = 44000
