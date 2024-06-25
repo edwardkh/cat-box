@@ -9,50 +9,39 @@ np = NeoPixel(Pin(get_neopixel_pin()), 1)
 np_power = Pin(get_neopixel_power_pin(), Pin.OUT)
 np_power.on()
 
-blink_task = 0
 
-def blink(period_ms):
-    global np
-    cached_np = np
-
-    try:
-        while True:
-            np[0] = (0,0,0)
-            np.write()
-
-            np = cached_np
-            np.write()
-    finally:
-        np[0] = (0,128,0)
-        np.write()
-
-def lumos():
-    global blink_task
-
-    # idle = green
-    if state.get_state() == state.IDLE:
-        # if blink_task != 0:
-        #     blink_task.cancel()
-        #     blink_task = 0
-
-        np[0] = (0,128,0)
-
-    # cat entered / waiting to cycle = yellow
-    elif state.get_state() == state.WAITING_TO_CYCLE:
-        np[0] = (128,128,0)
-
-    # paused = red
-    elif state.get_state() == state.PAUSED:
-        np[0] = (128,0,0)
-
-    # rotating = blue
-    #elif (state.get_state() == state.SIFTING or state.get_state() == state.EATING_SHIT or state.get_state() == state.MOVING_BACK or state.get_state() == state.LEVELING_LITTER or state.get_state() == state.LEVELING_GLOBE) and blink_task == 0:
-    elif state.get_state() == state.SIFTING or state.get_state() == state.EATING_SHIT or state.get_state() == state.MOVING_BACK or state.get_state() == state.LEVELING_LITTER or state.get_state() == state.LEVELING_GLOBE == 0:
-        np[0] = (0,0,128)
-        #blink_task = asyncio.create_task(blink(250))
-    # purple
-    elif state.get_state() == state.EMPTYING or state.get_state() == state.OPENING_THROAT or state.get_state() == state.EATING_LITTER or state.get_state() == state.SWALLOWING or state.get_state() == state.RESETTING:
-        np[0] = (128,0,128)
-    
- 
+async def dolight(color, blink = False, period_ms = 250):
+    np[0] = color
     np.write()
+    await asyncio.sleep_ms(period_ms)
+    
+    if blink == True:
+        np[0] = (0,0,0)
+        np.write()
+    await asyncio.sleep_ms(period_ms)
+
+async def lumos():
+    while True:
+
+        # idle = green
+        if state.get_state() == state.IDLE:
+            asyncio.run(dolight((0,255,0)))
+
+        # cat entered / waiting to cycle = yellow
+        elif state.get_state() == state.WAITING_TO_CYCLE:
+            asyncio.run(dolight((255,255,0)))
+
+        # paused = red
+        elif state.get_state() == state.PAUSED:
+            asyncio.run(dolight((255,0,0)))
+
+        # rotating = blinking yellow
+        elif state.get_state() == state.SIFTING or state.get_state() == state.EATING_SHIT or state.get_state() == state.MOVING_BACK or state.get_state() == state.LEVELING_LITTER or state.get_state() == state.LEVELING_GLOBE == 0:
+            asyncio.run(dolight((255,255,0), True))
+
+        # empty = blinking purple
+        elif state.get_state() == state.EMPTYING or state.get_state() == state.OPENING_THROAT or state.get_state() == state.EATING_LITTER or state.get_state() == state.SWALLOWING or state.get_state() == state.RESETTING:
+            asyncio.run(dolight((255,0,255), True))
+        else:
+            await asyncio.sleep_ms(250)
+        
