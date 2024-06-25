@@ -5,10 +5,10 @@ import alert.bin_full as bin_full
 from litter_box.sense import calibrate_load
 from persistent_state import state as persistent_state
 
-IDLE = const('Waiting for shit')
+IDLE = const('Idle')
 
-WAITING_TO_CYCLE = const("Shit detected waiting to cycle")
-SIFTING = const("Sifting shit")
+WAITING_TO_CYCLE = const("Waiting to cycle")
+SIFTING = const("Sifting")
 EATING_SHIT = const("Eating shit")
 MOVING_BACK = const("Moving back")
 LEVELING_LITTER = const("Leveling litter")

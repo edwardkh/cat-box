@@ -36,9 +36,13 @@ def do_cycle():
         if state.delay_over(get_cycle_overshoot_time()):
             rotate.stop()
             state.set_state(state.LEVELING_GLOBE)
+            state.start_delay()
     if state.get_state() == state.LEVELING_GLOBE:
         rotate.counter_clock_wise()
-        if sense.hall_sensor_triggered():
+
+        # there is a weak magnet at the level litter position, so we need an ignore delay here
+        if sense.hall_sensor_triggered() and state.delay_over(get_cycle_start_ignore_hall_sensor_time()): 
             rotate.stop()
             state.set_state(state.IDLE)
             sense.calibrate_load()
+

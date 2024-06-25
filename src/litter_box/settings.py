@@ -1,22 +1,30 @@
 from persistent_state.state import get_state_of
 
-cycle_start_ignore_hall_sensor_time = 5
+cycle_start_ignore_hall_sensor_time = 3
 cycle_wait_time = 30
 cycle_eating_time = 7
 cycle_overshoot_time = 7
 empty_overshoot_time = 5
 empty_eating_time = 7
-hall_pin1 = 37
-hall_pin2 = 39
-load_sensor_pin = 16
+hall_pin1 = 11
+hall_pin2 = 12
+load_sensor_pin = 18
 load_sensor_threshold = 3000
-l298n_ena = 18
-l298n_in1 = 33
-l298n_in2 = 35
+l298n_in1 = 4
+l298n_in2 = 3
 loop_sleep = 0.1
 rotate_direction_reversed = False
 timed_cycle_delay_hours = 24
+neopixel_power_pin = 21
+neopixel_pin = 33
 
+
+def get_neopixel_power_pin():
+    return get_state_of("neopixel_power", neopixel_power_pin)
+
+
+def get_neopixel_pin():
+    return get_state_of("neopixel_pin", neopixel_pin)
 
 def get_timed_cycle_delay_hours():
     return get_state_of("timed_cycle_delay_hours", timed_cycle_delay_hours)
@@ -61,10 +69,6 @@ def get_load_sensor_threshold():
     return get_state_of("load_sensor_threshold", load_sensor_threshold)
 
 
-def get_l298n_ena():
-    return get_state_of("l298n_ena", l298n_ena)
-
-
 def get_l298n_in1():
     return get_state_of("l298n_in1", l298n_in1)
 
@@ -79,3 +83,4 @@ def get_loop_sleep():
 
 def get_rotate_direction_reversed():
     return get_state_of("rotate_direction_reversed", rotate_direction_reversed)
+

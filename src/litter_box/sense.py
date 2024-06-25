@@ -15,7 +15,7 @@ rolling_load = 44000
 
 def hall_sensor_triggered():
     global old_hall_sensor1, old_hall_sensor2
-    print("Hall1: "+str(hall_sensor1.value())+", Hall2: "+str(hall_sensor2.value()))
+    print("  Hall1: "+str(hall_sensor1.value())+", Hall2: "+str(hall_sensor2.value()))
     hall_sensor1_triggered = not hall_sensor1.value() and old_hall_sensor1
     hall_sensor2_triggered = not hall_sensor2.value() and old_hall_sensor2
     old_hall_sensor1 = hall_sensor1.value()
@@ -30,12 +30,12 @@ def calibrate_load():
     for i in range(count):
         load = load + cat_sensor.read_u16()
     average_load = load / 10
-    print("Recalibrated to: " + str(average_load))
+    print("  Recalibrated to: " + str(average_load))
 
 
 def cat_in_the_box():
     global rolling_load
     load = cat_sensor.read_u16()
     rolling_load = (2 * rolling_load + load) / 3
-    print("load=" + str(load) + ", rolling:" + str(rolling_load))
+    print("  load=" + str(load) + ", rolling:" + str(rolling_load))
     return rolling_load + get_load_sensor_threshold() < average_load

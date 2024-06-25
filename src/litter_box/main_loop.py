@@ -5,12 +5,14 @@ from litter_box.settings import get_loop_sleep
 import litter_box.detect
 import litter_box.cycle
 import litter_box.empty
+import litter_box.neopixel_status
 
 
 def run():
     litter_box.detect.cat()
     litter_box.cycle.do_cycle()
     litter_box.empty.do_empty()
+    litter_box.neopixel_status.lumos()
     print(get_state())
 
 
