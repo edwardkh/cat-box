@@ -1,3 +1,5 @@
+Big shout out to MrOstling for his original work.
+
 ## Changes
 
 * neopixel support for status on the adafruit esp32-s2 feather
