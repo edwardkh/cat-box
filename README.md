@@ -1,92 +1,32 @@
-# Litter Box
- 
-This is code for an alternate main board for a litter robot 3.
+## Changes
 
-## Features
+* neopixel support for status on the adafruit esp32-s2 feather
+* sift delay changed to minutes, since the original 30 sec delay didn't give enough time for litter to clump.  Also added this to web UI
+* using internal pullup for hall sensor pins. external pullup resistors no longer needed
+* added attenuation for cat sensor ADC, since the voltage range is always around the 2.7v-3v range
+* light modification on status and display names for more easier debugging
 
-### Current Working Features
+## Stuff I broke
 
-* Clean litter box on cat detection (if CAT sensor is used).
-* Clean litter box a set duration after last cycle. This is useful for cats too lite to trigger the box. It is also useful if the CAT sensor is not used.
-* Empty litter box.
-* Send email (or text message) on after a set number of cycles. 
-* Web based UI.
+* email currently not working for generic ESP32-S2 firmware due to missing library
 
-### Litter Robot 3 Features not implemented
+## Hardware Used
 
-* Physical buttons
-* Pinch detection
-* Bin full detection
-
-## Hardware Needed
-
-* ESP32s2 mini (https://amzn.to/3Ox8Swh)
+* Adafruit ESP32-S2 Feather (https://www.microcenter.com/product/648549/adafruit-industries-esp32-s2-feather-with-bme280-sensor-stemma-qt-4mb-flash-2-mb-psram) - I was desperate for a same day solution, and bought the first avaialable ESP32 from the local microcenter.  Any MicroPython supported board will work, although you would have to mess around with the neopixel settings.
 * L298N motor controller (used to drive motor and provide 5V voltage step down)(https://amzn.to/3UtnYqj)
 * One 2.2K resistor for the CAT detector (https://amzn.to/4889Zt4)
-* Two 10K resistors for the hall effect sensors (https://amzn.to/4889Zt4)
 * A Litter Robot 3 with a bad main board.
 
-## Prepare the esp32s2 mini.
+## Prepare the Adafruit ESP32-S2 Feather
 
-### Find the connection for board
-Run `ls /dev/tty*` with the board unplugged and again with it plugged in.
-Find the path to the added device and set it to `DEVICE_CONNECTION`, example:
-```shell
-export DEVICE_CONNECTION=/dev/ttyACM1
-```
+Adafruit really wants you to use circuitpython, and I was not about to go porting the whole code over.  Go ahead and flash the generic ESP32-S2 micropython firmware (https://micropython.org/download/ESP32_GENERIC_S2/) and everything except for the email feature will work.  The generic firmware is missing one of the needed libaries.
 
-### Download the firmware
-```shell
-curl -o micropython.bin https://micropython.org/resources/firmware/LOLIN_S2_MINI-20231005-v1.21.0.bin 
-````
-
-### Flash micropython onto the board
-Make S2 boards into Device Firmware Upgrade (DFU) mode.
-* Hold on Button 0 
-* Press Button Reset 
-* Release Button 0 When you hear the prompt tone on usb reconnection
-
-```shell
-esptool.py --chip esp32s2 --port $DEVICE_CONNECTION erase_flash
-esptool.py --chip esp32s2 --port $DEVICE_CONNECTION write_flash -z 0x1000 micropython.bin
-```
-
-### Customize the software (optional)
-#### Configure web connection
-In the `src/wifi` directory copy `default_secrets.py` to `secrets.py` and enter values for your network connection.
-If `base_url` is none the devices ip address will be used directly.
-
-#### Configure alerts
-Alerts require a web connection. In the `src/alert` directory copy `default_secrets.py` to `secrets.py` and enter values for 
-your email.
-
-### Upload the software
-Load the contents of the src directory to the board.
+Follow MrOstling's guide or MicroPython's getting started guide to get your board ready
 
 ## Wire it up
 
-![wiring diagram](img/diagram.png)
+Slightly modified wiring diagram with corresponding wire colors from my LR3
 
-## Run it
+![catbox - Page 2](https://github.com/edwardkh/cat-box/assets/1653747/d19fd6d1-b906-4889-b0a8-e811fa728c29)
 
-It should start running one the code is uploaded. 
 
-Logs can be read via 
-
-```commandline
-picocom $DEVICE_CONNECTION -b115200
-```
-
-Note: If it is rotating in the wrong direction you can set `rotate_direction_reversed` to `true`.
-
-### The UI
-
-If you set up a web connection, you can access the ui via a web browser. It should look something like:
-![ui actions](img/ui-actions.png)
-with settings something like:
-![ui settings](img/ui-settings.png)
-
-### The API
-
-* PATCH `/settings` 
-  * Nearly all the settings are settable by sending a json object to this endpoint with the setting name and value.
