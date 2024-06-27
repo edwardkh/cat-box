@@ -82,7 +82,8 @@ def get_settings(request):
         "timed_cycle_delay_hours": get_timed_cycle_delay_hours(),
         "bin_full_cycles": get_bin_full_cycles(),
         "current_cycles": get_current_cycles(),
-        "last_cycle": state.get_last_cycle()
+        "last_cycle": state.get_last_cycle(),
+        "cycle_wait_time": state.get_cycle_wait_time()
     }
     return settings, 200, {'Content-Type': 'application/json'}
 

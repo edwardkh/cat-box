@@ -63,7 +63,7 @@ def unpause():
 
 def ok_to_move():
     global last_detection
-    return last_detection + get_cycle_wait_time() < time.time()
+    return last_detection + get_cycle_wait_time() * 60 < time.time()
 
 
 def start_delay():

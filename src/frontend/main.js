@@ -47,6 +47,9 @@ const getSettings = () => {
             document.getElementById("alertCyclesValue").innerHTML=response.data.bin_full_cycles
             document.getElementById("alertCycles").value=response.data.bin_full_cycles
 
+            document.getElementById("cycleWaitTimeMinutesValue").innerHTML=response.data.cycle_wait_time
+            document.getElementById("cycleWaitTimeMinutes").value=response.data.cycle_wait_time
+
             document.getElementById("timedCycleDelayHoursValue").innerHTML=response.data.timed_cycle_delay_hours
             document.getElementById("timedCycleDelayHours").value=response.data.timed_cycle_delay_hours
         })
@@ -86,6 +89,13 @@ const setBinFullCycles = (value) => {
     document.querySelector("#alertCyclesValue").textContent = value;
     update({"bin_full_cycles": parseInt(value)})
 }
+
+const setCycleWaitTimeMinutes = (value) => {
+    document.querySelector("#cycleWaitTimeMinutesValue").textContent = value;
+    update({"cycle_wait_time": parseInt(value)})
+}
+
+
 
 document.addEventListener('DOMContentLoaded', function() {
     var elements = document.querySelectorAll('.collapsible');

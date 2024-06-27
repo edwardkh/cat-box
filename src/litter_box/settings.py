@@ -1,9 +1,11 @@
 from persistent_state.state import get_state_of
 
 cycle_start_ignore_hall_sensor_time = 3
-cycle_wait_time = 30
+
+#cycle wait time is in minutes
+cycle_wait_time = 3 
 cycle_eating_time = 7
-cycle_overshoot_time = 7
+cycle_overshoot_time = 8
 empty_overshoot_time = 5
 empty_eating_time = 7
 hall_pin1 = 11
