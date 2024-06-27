@@ -6,6 +6,11 @@
 * added attenuation for cat sensor ADC, since the voltage range is always around the 2.7v-3v range
 * light modification on status and display names for more easier debugging
 
+Sweet neopixel action
+
+![image](https://github.com/edwardkh/cat-box/assets/1653747/d14fec79-569d-451b-96ba-f9751aeedffb)
+
+
 ## Stuff I broke
 
 * email currently not working for generic ESP32-S2 firmware due to missing library
