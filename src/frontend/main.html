@@ -72,6 +72,14 @@
                             onchange="setBinFullCycles(this.value)"/>
                 </div>
                 <div>
+                    <label for="cycleWaitTimeMinutes"><i class="material-icons">timelapse</i>Cycle Delay Time (Minutes):</label>
+                    <output id="cycleWaitTimeMinutesValue"></output>
+                    <input
+                            id="cycleWaitTimeMinutes" type="range" min="3" max="15" step="1"
+                            value=""
+                            onchange="setCycleWaitTimeMinutes(this.value)"/>
+                </div>                
+                <div>
                     <label for="timedCycleDelayHours"><i class="material-icons">timelapse</i>Timed Cycle Delay (Hours):</label>
                     <output id="timedCycleDelayHoursValue"></output>
                     <input
