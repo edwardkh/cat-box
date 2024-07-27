@@ -5,6 +5,7 @@ from litter_box.settings import get_loop_sleep
 import litter_box.detect
 import litter_box.cycle
 import litter_box.empty
+import litter_box.state
 
 
 def run():
@@ -15,6 +16,8 @@ def run():
 
 
 async def loop():
+    litter_box.state.reset()
+
     while True:
         run()
         await asyncio.sleep(get_loop_sleep())

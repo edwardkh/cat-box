@@ -7,7 +7,7 @@ hall_sensor2 = Pin(get_hall_pin2(), Pin.IN, Pin.PULL_UP)
 old_hall_sensor1 = True
 old_hall_sensor2 = True
 
-cat_sensor = ADC(Pin(get_load_sensor_pin()), atten = ADC.ATTN_11DB)
+cat_sensor = ADC(Pin(get_load_sensor_pin()), atten=ADC.ATTN_11DB)
 
 average_load = 44000
 rolling_load = 44000
@@ -37,5 +37,6 @@ def cat_in_the_box():
     global rolling_load
     load = cat_sensor.read_u16()
     rolling_load = (2 * rolling_load + load) / 3
-    print("  load=" + str(load) + ", rolling:" + str(rolling_load))
+    print("  load=" + str(load) + ", rolling:" + str(rolling_load) + ", trigger:" + str(average_load - get_load_sensor_threshold()))
     return rolling_load + get_load_sensor_threshold() < average_load
+
