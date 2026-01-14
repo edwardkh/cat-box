@@ -37,7 +37,9 @@ def do_cycle():
             rotate.stop()
             state.set_state(state.LEVELING_GLOBE)
             state.start_delay()
-    if state.get_state() == state.LEVELING_GLOBE:
+    # add a 3 second delay to buffer the clockwise rotation to counterclockwise rotation
+    # as this was causing a power drip
+    if state.get_state() == state.LEVELING_GLOBE and state.delay_over(3):
         rotate.counter_clock_wise()
 
         # there is a weak magnet at the level litter position, so we need an ignore delay here
