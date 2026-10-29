@@ -1,1 +1,14 @@
 secrets.py
+
+# PlatformIO build artifacts
+.pio/
+test_results/
+build-logs/
+
+# LittleFS payload staging (holds credentials — never commit)
+data/
+
+# Orchestration scratch docs
+.plan.md
+.plan-cpp.md
+.scout-report.md

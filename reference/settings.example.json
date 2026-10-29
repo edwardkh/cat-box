@@ -1,0 +1,14 @@
+{
+  "wifi_ssid": "CHANGEME",
+  "wifi_password": "CHANGEME",
+  "wifi_hostname": "catbox",
+  "base_url": null,
+  "load_sensor_threshold": 6000,
+  "timed_cycle_delay_hours": 24,
+  "bin_full_cycles": 20,
+  "smtp_server": "smtp.gmail.com",
+  "smtp_port": 587,
+  "smtp_email": null,
+  "smtp_password": null,
+  "bin_full_recipients": []
+}
